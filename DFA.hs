@@ -55,3 +55,6 @@ runDFA_m d m = liftM aux (runStateT (runErrorT m) (d,0))
               
 runDFA :: DFA -> DFA_M a -> (Either String a,States)
 runDFA d m = runIdentity (runDFA_m d m)
+
+testDFA :: DFA
+testDFA = DFA 0 "ab" (\ s c -> 0) [0]

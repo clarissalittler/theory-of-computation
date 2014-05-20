@@ -30,9 +30,11 @@ record _¿_ {n : ℕ} (s : Vec (Fin 2) n) (D : DFA) : Set where
     δCond : (f : Fin n) -> lookup (suc f) path ≡ ((DFA.δ D) (lookup (inject₁ f) path) (lookup f s))
 -- is there an easier way to do this?
 
+uniq¿ : {n : ℕ} -> (d : DFA) -> (s : Vec (Fin 2) n) -> (p₁ : s ¿ d) -> (p₂ : s ¿ d) -> p₁ ≡ p₂
+uniq¿ d s p₁ p₂ = {!!}
+
 allDFA : DFA 
 allDFA = dfa zero (λ x y → zero) (λ x → true)
--- dfa zero ((λ {zero zero → zero; zero (suc zero) → zero}) (λ x → true))
 
 allDFATest : [] ¿ allDFA
 allDFATest = cpath [ zero ] PropEq.refl PropEq.refl (λ ()) -- cute!
@@ -68,4 +70,15 @@ emptyDFATest (cpath path startCond () δCond) -- looks mysterious, but it was ac
                                              -- when it's the constantly false function hence contradiction
 
 -- let's have some operations on DFAs
+_^- : DFA -> DFA
+(dfa Q δ F) ^- = dfa Q δ (λ q -> not (F q))
+{-
+dfaCong : (D D' : DFA) 
+       -> (pQ : DFA.Q D ≡ DFA.Q D')
+       ->  (subst _ DFA.δ D ≡  -}
 
+unitary : (d : DFA) -> (d ^-) ^- ≡ d
+unitary (dfa Q δ F) = {!!} -- I want to at least start this proof but eventually show that you can't finish the last part without functional extensionality
+
+complement1 : {n : ℕ} -> (d : DFA) -> (s : Vec (Fin 2) n) -> s ¿ d -> s ¿ (d ^-) -> ⊥
+complement1 d s (cpath path startCond endCond δCond) (cpath path₁ startCond₁ endCond₁ δCond₁) = {!!} -- Oh shoot we need to show that if there is a path for a DFA then any other path is equal to it!!!!!!
